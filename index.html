@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>temp</title>
+<style>
+
+</style>
+</head>
+<body>
+
+
+<!-- Scripts Start -->
+<script type="text/javascript" src="./jquery.js"></script>
+<script type="text/javascript">
+
+// ------------------------------------------------------------
+//
+//  mode
+//
+// ------------------------------------------------------------
+
+var mode = 'time'; // default
+
+(function(){
+
+  var ref, ref1, param, key, value;
+
+  ref = location.search.replace('?', '').split('&');
+
+  for (i = 0, len = ref.length; i < len; i++) {
+
+    param = ref[i];
+    ref1 = param.split('='), key = ref1[0], value = ref1[1];
+
+    if (key === 'time') {
+      if (value === '1') {
+        mode = 'time';
+      }
+    }
+    if (key === 'position') {
+      if (value === '1') {
+        mode = 'position';
+      }
+    }
+
+  }
+
+})();
+
+// ------------------------------------------------------------
+//
+//  time
+//
+// ------------------------------------------------------------
+
+(function(){
+
+    var sX,eX, //startX,endX
+        sT,eT,minT = 300; //startTime,ellapsedTime,
+
+    function touchStartTime(e) {
+
+      sT = (new Date).getTime();
+
+    }
+
+    function touchMoveTime(e) {
+
+      
+    }
+
+    function touchEndTime(e) {
+
+      eT = (new Date).getTime() - sT;
+
+      if( minT > eT) return;
+
+      console.log('touchTime');
+
+    }
+
+    function setEvents(){
+
+      $(window).on('touchstart', touchStartTime);
+      $(window).on('touchmove', touchMoveTime);
+      $(window).on('touchend', touchEndTime);
+
+    }
+  
+    function main() {
+
+      setEvents();
+
+    }
+
+    if (mode == 'time') main();
+    
+})();
+
+// ------------------------------------------------------------
+//
+//  position
+//
+// ------------------------------------------------------------
+
+(function(){
+
+    var sX,eX, //startX,endX
+        dis,minDis = 50;
+
+    function touchStartPos(e) {
+
+      sX = e.originalEvent.changedTouches[0].pageX;
+
+    }
+
+    function touchMovePos(e) {
+
+      
+    }
+
+    function touchEndPos(e) {
+
+      dis = sX - e.originalEvent.changedTouches[0].pageX;
+
+      if( minDis > Math.abs(dis)) return;
+
+      console.log('touchPos');
+
+      // // 移動量を初期化
+      dis = 0;
+
+    }
+
+    function setEvents(){
+
+      $(window).on('touchstart', touchStartPos);
+      $(window).on('touchmove', touchMovePos);
+      $(window).on('touchend', touchEndPos);
+
+    }
+  
+    function main() {
+
+      setEvents();
+
+    }
+
+    if (mode == 'position') main();
+    
+})();
+
+
+
+</script>
+</body>
+</html>
